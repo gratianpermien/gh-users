@@ -9,18 +9,18 @@ function Search() {
     JSON.parse(localStorage.getItem("_GHUSERSSEARCH")) || []
   );
 
-  const handleChange = (event) => {
-    setSearchString(event.target.value);
-  };
-
   useEffect(() => {
     localStorage.setItem("_GHUSERSSEARCH", JSON.stringify(results));
   }, [results]);
 
-  async function handleClick() {
-    const authToken = "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"; //import.meta.env.VITE_GHAUTHTOKEN;
-    const query = `${searchString}+in:user&per_page=100`;
+  const handleChange = (event) => {
+    setSearchString(event.target.value);
+    event.target.value.length >= 3 && handleSearch();
+  };
 
+  async function handleSearch() {
+    const authToken = import.meta.env.VITE_GHAUTHTOKEN;
+    const query = `${searchString}+in:user&per_page=50`;
     try {
       const response = await axios(
         `https://api.github.com/search/users?q=${query}`,
@@ -38,14 +38,12 @@ function Search() {
   return (
     <>
       <SearchWrapper>
-        <h2>Search</h2>
-        <input
+        <Searchbar
           type="text"
-          placeholder="First 3 letters of username start search"
+          placeholder="Feed me 3 letters"
           value={searchString}
           onChange={handleChange}
         />
-        <button onClick={handleClick}>Search</button>
         <Results results={results} />
       </SearchWrapper>
     </>
@@ -53,7 +51,15 @@ function Search() {
 }
 export default Search;
 
+const Searchbar = styled.input`
+  max-width: 50vw;
+  border-radius: 1em;
+  border: 2px solid var(--primary-color);
+  font-size: var(--basic-font-size);
+  outline: none;
+  padding: 0.4em 1em;
+  width: 200px;
+`;
 const SearchWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
+  margin: 1em 0;
 `;

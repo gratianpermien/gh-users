@@ -12,7 +12,7 @@ export default function App() {
 }
 
 const AppWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  background: var(--primary-bg);
+  padding: 2em;
+  min-height: 100vh;
 `;
