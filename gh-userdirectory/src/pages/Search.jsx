@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Results from "../components/Results";
 
 function Search() {
+  //handling of search, api fetch, localstorage
   const [searchString, setSearchString] = useState("");
   const [results, setResults] = useState(
     JSON.parse(localStorage.getItem("_GHUSERSSEARCH")) || []
@@ -15,7 +16,7 @@ function Search() {
 
   const handleChange = (event) => {
     setSearchString(event.target.value);
-    event.target.value.length >= 3 && handleSearch();
+    event.target.value.length > 2 && handleSearch();
   };
 
   async function handleSearch() {
@@ -35,6 +36,7 @@ function Search() {
       console.log(error);
     }
   }
+
   return (
     <>
       <SearchWrapper>
